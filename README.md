@@ -5,7 +5,7 @@ The related paper can be found here: [Hasselt, 2010](https://papers.nips.cc/pape
 ## Double DQN
 The standard DQN method has been shown to overestimate the true Q-value, because for the target an argmax over estimated Q-values is used. Therefore when some values are overestimated and some underestimated, the overestimated values have a higher probability to be selected.
 
-VStandard DQN target:  **
+**Standard DQN target:  **
 Q(s<sub>t</sub>, a<sub>t</sub>) = r<sub>t</sub> + Q(s<sub>t+1</sub>, argmax<sub>a</sub>Q(s<sub>t</sub>, a))  
 
 By unsing two uncorralated Q-Networks we can prevent this overestimation. In oder to save computation time we do gradient updates only for one of the Q-Networks and periodically update the parameters of the target Q-Network to match the parameter of the Q-Network that is updated.  
