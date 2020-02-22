@@ -12,5 +12,6 @@ By unsing two uncorralated Q-Networks we can prevent this overestimation. In ode
 
 **The Double DQN target then becomes:**  
 Q(s<sub>t</sub>, a<sub>t</sub>) = r<sub>t</sub> + Q<sub>&theta;</sub>(s<sub>t+1</sub>, argmax<sub>a</sub>Q<sub>target</sub>(s<sub>t</sub>, a))  
+
 **And the loss function is now given by:**  
 (Q(s<sub>t</sub>, a<sub>t</sub>) - Q<sub>&theta;</sub>(s<sub>t</sub>, a<sub>t</sub>))^2  
