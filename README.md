@@ -4,3 +4,5 @@ The related paper can be found here: [Hasselt, 2010](https://papers.nips.cc/pape
 
 # Double DQN
 Standard DQN methods have been shown to overestimate the true Q-value, because $$3 = a$$
+    h<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
+
