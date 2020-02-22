@@ -3,4 +3,4 @@ Implementation of Double DQN reinforcement learning for OpenAI Gym environments 
 The related paper can be found here: [Hasselt, 2010](https://papers.nips.cc/paper/3964-double-q-learning)
 
 # Double DQN
-Standard DQN methods have been shown to overestimate the true Q-value, because $3 = a$
+Standard DQN methods have been shown to overestimate the true Q-value, because $$3 = a$$
