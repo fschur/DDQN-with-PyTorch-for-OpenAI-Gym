@@ -102,7 +102,7 @@ def select_action(model, env, state, eps):
 
     # select a random action wih probability eps
     if random.random() <= eps:
-        action = torch.Tensor([random.randrange(env.action_space.n)]).long().squeeze(0)
+        action = np.random.randint(0, env.action_space.n)
     else:
         action = np.argmax(values.cpu().numpy())
 
@@ -225,7 +225,7 @@ def main(gamma=0.99, lr=1e-3, min_episodes=20, eps=1, eps_decay=0.995, eps_min=0
         while not done:
             i += 1
             action = select_action(Q_2, env, state, eps)
-            state, reward, done, _ = env.step(action.item())
+            state, reward, done, _ = env.step(action)
 
             if i > horizon:
                 done = True
