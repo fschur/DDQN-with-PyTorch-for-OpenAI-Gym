@@ -9,10 +9,6 @@ from torch.optim.lr_scheduler import StepLR
 
 """
 Implementation of Double DQN for gym environments with discrete action space.
-
-todo:
-gpu
-text
 """
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
