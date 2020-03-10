@@ -1,5 +1,5 @@
 # DDQN with PyTorch for OpenAI Gym
-Implementation of Double DQN reinforcement learning for OpenAI Gym environments with discrete action spaces.  
+Implementation of Double DQN reinforcement learning for OpenAI Gym environments with discrete action spaces. Performance is defined as the sample efficiency of the algorithm i.e how good is the average reward after using x episodes of interaction in the environment.   
 The related paper can be found here: [Hasselt, 2010](https://papers.nips.cc/paper/3964-double-q-learning)
 
 ## Double DQN
