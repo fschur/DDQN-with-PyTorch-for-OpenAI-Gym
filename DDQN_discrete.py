@@ -84,8 +84,10 @@ class Memory:
         n = len(self.is_done)
         idx = random.sample(range(0, n-1), batch_size)
 
-        return torch.Tensor(self.state)[idx].to(device), torch.LongTensor(self.action)[idx].to(device), \
-               torch.Tensor(self.state)[1+np.array(idx)].to(device), torch.Tensor(self.rewards)[idx].to(device), \
+        state = np.array(self.state)
+        action = np.array(self.action)
+        return torch.Tensor(state)[idx].to(device), torch.LongTensor(action)[idx].to(device), \
+               torch.Tensor(state)[1+np.array(idx)].to(device), torch.Tensor(self.rewards)[idx].to(device), \
                torch.Tensor(self.is_done)[idx].to(device)
 
     def reset(self):
@@ -154,10 +156,12 @@ def update_parameters(current_model, target_model):
     target_model.load_state_dict(current_model.state_dict())
 
 
-def main(gamma=0.99, lr=1e-3, min_episodes=20, eps=1, eps_decay=0.995, eps_min=0.01, update_step=10, batch_size=64, update_repeats=50,
-         num_episodes=3000, seed=42, max_memory_size=50000, lr_gamma=0.9, lr_step=100, measure_step=100,
+def main(gamma=0.99, lr=1e-3, min_episodes=20, eps=1, eps_decay=0.998, eps_min=0.01, update_step=10, batch_size=64, update_repeats=50,
+         num_episodes=3000, seed=42, max_memory_size=5000, lr_gamma=1, lr_step=100, measure_step=100,
          measure_repeats=100, hidden_dim=64, env_name='CartPole-v1', cnn=False, horizon=np.inf, render=True, render_step=50):
     """
+    Remark: Convergence is slow. Wait until around episode 2500 to see good performance.
+
     :param gamma: reward discount factor
     :param lr: learning rate for the Q-Network
     :param min_episodes: we wait "min_episodes" many episodes in order to aggregate enough data before starting to train
@@ -183,8 +187,10 @@ def main(gamma=0.99, lr=1e-3, min_episodes=20, eps=1, eps_decay=0.995, eps_min=0
     :param render_step: see above
     :return: the trained Q-Network and the measured performances
     """
-    env = gym.make(env_name)
     torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    env = gym.make(env_name)
     env.seed(seed)
 
     if cnn:
@@ -192,9 +198,9 @@ def main(gamma=0.99, lr=1e-3, min_episodes=20, eps=1, eps_decay=0.995, eps_min=0
         Q_2 = QNetworkCNN(action_dim=env.action_space.n).to(device)
     else:
         Q_1 = QNetwork(action_dim=env.action_space.n, state_dim=env.observation_space.shape[0],
-                                        hidden_dim=hidden_dim).to(device)
+                       hidden_dim=hidden_dim).to(device)
         Q_2 = QNetwork(action_dim=env.action_space.n, state_dim=env.observation_space.shape[0],
-                                        hidden_dim=hidden_dim).to(device)
+                       hidden_dim=hidden_dim).to(device)
     # transfer parameters from Q_1 to Q_2
     update_parameters(Q_1, Q_2)
 
@@ -214,7 +220,7 @@ def main(gamma=0.99, lr=1e-3, min_episodes=20, eps=1, eps_decay=0.995, eps_min=0
             performance.append([episode, evaluate(Q_1, env, measure_repeats)])
             print("Episode: ", episode)
             print("rewards: ", performance[-1][1])
-            print("lr: ", scheduler.get_lr()[0])
+            print("lr: ", scheduler.get_last_lr()[0])
             print("eps: ", eps)
 
         state = env.reset()
