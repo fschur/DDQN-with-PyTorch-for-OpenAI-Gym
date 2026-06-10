@@ -1,4 +1,4 @@
 gym == 0.12.1
 pyglet == 1.5.27
-torch == 2.4.0
+torch == 2.12.0
 numpy == 2.0.1
